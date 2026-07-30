@@ -1,41 +1,88 @@
+import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import Button from '../components/Button'
+import Input from '../components/Input'
+import Card from '../components/Card'
 
 export default function Login() {
   const { signInWithGoogle, error } = useAuth()
+  const [isSignUp, setIsSignUp] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // This is mock UI, it doesn't do anything because useAuth only supports signInWithGoogle
+  }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm rounded-xl bg-white p-8 text-center shadow-md">
-        <h1 className="text-2xl font-semibold text-gray-900">Welcome to DeployIQ</h1>
-        <p className="mt-2 text-sm text-gray-500">Sign in or sign up to continue</p>
-
-        <button
-          type="button"
-          onClick={signInWithGoogle}
-          className="mt-6 flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-        >
-          <svg className="h-5 w-5" viewBox="0 0 48 48" aria-hidden="true">
-            <path
-              fill="#FFC107"
-              d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
-            />
-            <path
-              fill="#FF3D00"
-              d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
-            />
-            <path
-              fill="#4CAF50"
-              d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
-            />
-            <path
-              fill="#1976D2"
-              d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"
-            />
+    <div className="flex min-h-screen items-center justify-center bg-github-bg px-4 py-12">
+      <div className="w-full max-w-sm text-center">
+        <div className="mb-6 flex flex-col items-center justify-center gap-2">
+          <svg className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
           </svg>
-          Continue with Google
-        </button>
+          <h1 className="text-2xl font-light tracking-tight text-white">Welcome to Vanguard</h1>
+          <p className="text-sm text-github-muted">AI-powered Deployment Intelligence</p>
+        </div>
 
-        {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
+        <Card className="p-6 text-left shadow-lg">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {isSignUp && (
+              <div>
+                <label className="mb-1 block text-sm font-medium text-github-text">Name</label>
+                <Input type="text" placeholder="Jane Doe" />
+              </div>
+            )}
+            <div>
+              <label className="mb-1 block text-sm font-medium text-github-text">Email address</label>
+              <Input type="email" placeholder="you@example.com" />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-github-text">Password</label>
+              <Input type="password" placeholder="••••••••" />
+            </div>
+            {isSignUp && (
+              <div>
+                <label className="mb-1 block text-sm font-medium text-github-text">Confirm Password</label>
+                <Input type="password" placeholder="••••••••" />
+              </div>
+            )}
+
+            <Button type="submit" variant="primary" className="mt-2 w-full">
+              {isSignUp ? 'Sign Up' : 'Sign In'}
+            </Button>
+          </form>
+
+          <div className="my-4 flex items-center">
+            <div className="flex-1 border-t border-github-border"></div>
+            <span className="px-2 text-xs text-github-muted">or</span>
+            <div className="flex-1 border-t border-github-border"></div>
+          </div>
+
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={signInWithGoogle}
+            className="flex w-full items-center justify-center gap-2"
+          >
+            <svg className="h-4 w-4 fill-current text-github-text" viewBox="0 0 24 24">
+              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+            </svg>
+            Continue with GitHub
+          </Button>
+
+          {error && <p className="mt-4 text-sm text-github-red">{error}</p>}
+        </Card>
+
+        <p className="mt-6 text-sm text-github-muted">
+          {isSignUp ? 'Already have an account?' : 'New to Vanguard?'}
+          <button
+            type="button"
+            onClick={() => setIsSignUp(!isSignUp)}
+            className="ml-1 text-github-blue hover:underline focus:outline-none"
+          >
+            {isSignUp ? 'Sign in' : 'Create an account'}
+          </button>
+        </p>
       </div>
     </div>
   )
